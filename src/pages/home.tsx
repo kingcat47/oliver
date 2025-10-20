@@ -1,10 +1,14 @@
-import { Header } from "@/shared/widgets"
+import MainLayout from "@/shared/components/main-layout";
+import { Header, Sidebar } from "@/shared/widgets";
 
 export default function Home() {
-    return (
-        <main>
-            <Header/>
-            <h1>Home</h1>
-        </main>
-    )
+  return (
+    <div>
+      <Header />
+      <MainLayout>
+        <Sidebar />
+        <span>s</span>
+      </MainLayout>
+    </div>
+  );
 }

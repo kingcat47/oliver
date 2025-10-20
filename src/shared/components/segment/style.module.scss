@@ -1,0 +1,27 @@
+.segment {
+    background-color: $background-strong;
+
+    padding: $spacing-4;
+
+    border-radius: $radius-12;
+
+    display: flex;
+}
+
+.item {
+    width: 100%;
+    padding: $spacing-8 $spacing-12;
+
+    border-radius: $radius-8;
+    border: none;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    &.selected {
+        background-color: $background;
+
+        color: $content-brand;
+    }
+}

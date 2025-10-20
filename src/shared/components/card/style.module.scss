@@ -1,0 +1,11 @@
+.card {
+    border: 1px solid $border;
+    border-radius: $radius-12;
+
+    padding: $spacing-16;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 20px;
+}

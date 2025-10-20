@@ -5,8 +5,8 @@ import { IconButton } from "@/shared/components";
 import s from "./style.module.scss";
 
 interface Props {
-  leftContent: React.ReactNode;
-  rightContent: React.ReactNode;
+  leftContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
 }
 
 export default function Header({ leftContent, rightContent }: Props) {

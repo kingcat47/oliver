@@ -1,0 +1,15 @@
+.cameraInfoSection {
+    width: 400px;
+    height: 100%;
+
+    border-right: 1px solid $border;
+
+    padding: $padding;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+
+    margin: 0;
+}
