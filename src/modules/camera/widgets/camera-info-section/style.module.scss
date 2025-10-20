@@ -5,6 +5,25 @@
     border-right: 1px solid $border;
 
     padding: $padding;
+
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-24;
+}
+
+.header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+
+    a {
+        color: $content-hover;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
 }
 
 .title {
@@ -12,4 +31,17 @@
     font-weight: 600;
 
     margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+
+    p {
+        color: $content-weak;
+
+        line-height: 1.4;
+        letter-spacing: 0.01em;
+    }
 }

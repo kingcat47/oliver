@@ -5,3 +5,34 @@
 .title {
     font-weight: 500;
 }
+
+.content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span:first-child {
+            color: $content-weak;
+        }
+
+        span:last-child {
+            font-weight: 500;
+        }
+    }
+
+    .signalStrength {
+        display: flex;
+        gap: $spacing-8;
+
+        circle {
+            fill: $content-brand;
+        }
+    }
+}
