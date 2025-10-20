@@ -1,9 +1,9 @@
-import { ArrowUpRight, CircleQuestionMark } from "lucide-react";
+import { CircleQuestionMark } from "lucide-react";
 import { useState } from "react";
 
 import { Segment } from "@/shared/components";
 
-import { CameraSignalStrengthCard } from "../../components";
+import { CameraQualityLimitationCard, CameraSignalStrengthCard } from "../../components";
 
 import s from "./style.module.scss";
 
@@ -38,7 +38,12 @@ export default function CameraInfoSection() {
           부분은 밝게, 낮은 부분은 어둡게 표현합니다.
         </p>
       </div>
-      <CameraSignalStrengthCard />
+      <CameraSignalStrengthCard
+        averageDelay={100}
+        maxDelay={150}
+        medianDelay={120}
+      />
+      <CameraQualityLimitationCard />
     </section>
   );
 }

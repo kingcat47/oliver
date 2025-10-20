@@ -28,7 +28,7 @@
 
 .title {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 
     margin: 0;
 }
@@ -36,7 +36,7 @@
 .content {
     display: flex;
     flex-direction: column;
-    gap: $spacing-6;
+    gap: $spacing-4;
 
     p {
         color: $content-weak;
