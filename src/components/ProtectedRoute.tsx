@@ -15,12 +15,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       try {
         // 인증 상태 확인 API 호출
         // 백엔드에서 쿠키를 확인하여 인증 상태를 반환
-        await apiClient.get("/v1/auth/@me", {
-          withCredentials: true,
-        });
+        // apiClient에 이미 withCredentials: true가 설정되어 있음
+        await apiClient.get("/v1/auth/@me");
         setIsAuthenticated(true);
-      } catch (error) {
+      } catch (error: any) {
         // 401 에러 또는 인증 실패 시
+        // 401이 아닌 다른 에러도 인증 실패로 처리
         setIsAuthenticated(false);
       }
     };
