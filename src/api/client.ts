@@ -5,13 +5,23 @@ let cacheTimestamp = 0;
 const CACHE_DURATION = 100;
 
 const getCookie = (name: string): string | null => {
+  console.log("=== Cookie Debug ===");
+  console.log("All cookies:", document.cookie);
+  console.log("Looking for cookie:", name);
+  
   const cookies = document.cookie.split(';');
+  console.log("Split cookies:", cookies);
+  
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i].trim();
+    console.log(`Checking cookie[${i}]:`, cookie);
     if (cookie.startsWith(`${name}=`)) {
-      return cookie.substring(name.length + 1);
+      const value = cookie.substring(name.length + 1);
+      console.log("Found cookie value:", value);
+      return value;
     }
   }
+  console.log("Cookie not found");
   return null;
 };
 
