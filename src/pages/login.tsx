@@ -53,6 +53,13 @@ export default function Login() {
     const frontendUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
     const callbackUrl = `${frontendUrl}/auth/callback`;
     const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
+    
+    console.log("=== Google 로그인 시작 ===");
+    console.log("백엔드 URL:", backendUrl);
+    console.log("프론트엔드 URL:", frontendUrl);
+    console.log("Callback URL:", callbackUrl);
+    console.log("최종 리다이렉트 URL:", googleAuthUrl);
+    
     window.location.href = googleAuthUrl;
   };
 
