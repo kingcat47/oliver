@@ -46,20 +46,10 @@ export default function Login() {
   }, [navigate]);
 
   const handleGoogleLogin = () => {
-    // 백엔드 서버 도메인으로 직접 리다이렉트
-    // 프론트엔드 callback URL을 쿼리 파라미터로 전달
     const backendUrl = import.meta.env.VITE_API_BASE_URL || "https://oliver-api.thnos.app";
-    // 환경 변수가 있으면 사용하고, 없으면 현재 origin 사용 (로컬 개발용)
     const frontendUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
     const callbackUrl = `${frontendUrl}/auth/callback`;
     const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
-    
-    console.log("=== Google 로그인 시작 ===");
-    console.log("백엔드 URL:", backendUrl);
-    console.log("프론트엔드 URL:", frontendUrl);
-    console.log("Callback URL:", callbackUrl);
-    console.log("최종 리다이렉트 URL:", googleAuthUrl);
-    
     window.location.href = googleAuthUrl;
   };
 
