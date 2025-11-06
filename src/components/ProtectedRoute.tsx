@@ -2,6 +2,19 @@ import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import apiClient from "@/api/client";
 
+// 로그를 localStorage에 저장하는 헬퍼 함수
+const saveLog = (message: string, data?: any) => {
+  const logs = JSON.parse(localStorage.getItem("auth_logs") || "[]");
+  logs.push({
+    time: new Date().toISOString(),
+    message,
+    data: data ? JSON.stringify(data, null, 2) : undefined,
+  });
+  if (logs.length > 50) logs.shift();
+  localStorage.setItem("auth_logs", JSON.stringify(logs));
+  console.log(message, data);
+};
+
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
@@ -13,25 +26,36 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log("인증 상태 확인 중...", window.location.pathname);
+        saveLog("인증 상태 확인 중...", { path: window.location.pathname });
+        saveLog("현재 쿠키", document.cookie);
+        
         // 인증 상태 확인 API 호출
         // 백엔드에서 쿠키를 확인하여 인증 상태를 반환
         // apiClient에 이미 withCredentials: true가 설정되어 있음
         const response = await apiClient.get("/v1/auth/@me");
-        console.log("인증 성공:", response.data);
+        saveLog("인증 성공", response.data);
         setIsAuthenticated(true);
       } catch (error: any) {
         // 401 에러 또는 인증 실패 시
         const status = error.response?.status;
-        console.log("인증 실패:", status, error.response?.data);
+        saveLog("인증 실패", {
+          status,
+          data: error.response?.data,
+          cookies: document.cookie,
+          isNetworkError: !error.response,
+          message: error.message,
+        });
         
         // CORS 에러가 아닌 경우에만 인증 실패로 처리
         if (status === 401) {
           // 401은 인증되지 않은 상태이므로 로그인 페이지로 리다이렉트
+          saveLog("⚠️ 401 에러: 쿠키가 없거나 유효하지 않습니다", {
+            currentCookies: document.cookie,
+          });
           setIsAuthenticated(false);
         } else if (!error.response) {
           // 네트워크 에러나 CORS 에러인 경우
-          console.error("네트워크 에러:", error.message);
+          saveLog("⚠️ 네트워크 에러", { message: error.message });
           setIsAuthenticated(false);
         } else {
           // 기타 에러

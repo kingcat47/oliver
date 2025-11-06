@@ -2,11 +2,16 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { Camera, Emergency, Home, Login, Map, Settings, AuthCallback } from "@/pages";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Debug from "@/pages/debug";
 
 export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/debug",
+    element: <Debug />,
   },
   {
     path: "/auth/callback",
