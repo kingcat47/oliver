@@ -51,7 +51,15 @@ export default function AuthCallback() {
           return;
         }
 
-        // code나 token이 없으면 로그인 페이지로 리다이렉트
+        // code나 token이 없지만 /auth/success로 온 경우
+        // 백엔드가 이미 쿠키를 주입하고 리다이렉트한 경우일 수 있음
+        // 홈으로 리다이렉트 시도
+        if (window.location.pathname === "/auth/success") {
+          navigate("/");
+          return;
+        }
+
+        // 그 외의 경우 로그인 페이지로 리다이렉트
         navigate("/login");
       } catch (error) {
         console.error("Callback 처리 실패:", error);

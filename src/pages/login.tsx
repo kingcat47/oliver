@@ -26,7 +26,8 @@ export default function Login() {
     // 백엔드 서버 도메인으로 직접 리다이렉트
     // 프론트엔드 callback URL을 쿼리 파라미터로 전달
     const backendUrl = import.meta.env.VITE_API_BASE_URL || "https://oliver-api.thnos.app";
-    const frontendUrl = window.location.origin;
+    // 환경 변수가 있으면 사용하고, 없으면 현재 origin 사용 (로컬 개발용)
+    const frontendUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
     const callbackUrl = `${frontendUrl}/auth/callback`;
     const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
     window.location.href = googleAuthUrl;

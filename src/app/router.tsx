@@ -15,6 +15,10 @@ export const router = createBrowserRouter([
     element: <AuthCallback />,
   },
   {
+    path: "/auth/success",
+    element: <AuthCallback />,
+  },
+  {
     path: "/camera",
     element: <Camera />,
   },
