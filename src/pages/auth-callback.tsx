@@ -33,6 +33,7 @@ export default function AuthCallback() {
         // code가 전달된 경우, 백엔드로 GET 요청 (쿠키 주입)
         if (code) {
           try {
+            console.log("Google OAuth callback code 받음:", code);
             // GET 요청으로 code를 쿼리 파라미터로 전송
             // 백엔드에서 쿠키를 주입해주므로 withCredentials: true 필요
             const response = await apiClient.get("/v1/auth/google/callback", {
@@ -42,17 +43,22 @@ export default function AuthCallback() {
               withCredentials: true, // 쿠키를 받기 위해 필요
             });
             
+            console.log("로그인 성공 응답:", response.data);
+            
             // 백엔드가 응답으로 JWT 토큰을 반환하는 경우 (선택적)
             // 쿠키에 JWT가 포함되어 있으면 이 부분은 필요 없음
             if (response.data?.data?.token || response.data?.token) {
               const jwtToken = response.data?.data?.token || response.data?.token;
               localStorage.setItem("token", jwtToken);
+              console.log("JWT 토큰 저장됨");
             }
             
             // 쿠키가 주입되었으므로 홈으로 리다이렉트 (replace로 히스토리 정리)
+            console.log("홈으로 리다이렉트");
             navigate("/", { replace: true });
-          } catch (error) {
+          } catch (error: any) {
             console.error("로그인 처리 실패:", error);
+            console.error("에러 상세:", error.response?.data);
             navigate("/login", { replace: true });
           }
           return;
