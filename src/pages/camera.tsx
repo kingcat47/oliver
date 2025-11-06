@@ -4,7 +4,7 @@ import MainLayout from "@/shared/components/main-layout";
 import { useState } from "react";
 
 export default function Camera() {
-  const [isCameraInfo, setIsCameraInfo] = useState(true);
+  const [isCameraInfo] = useState(true);
   return (
     <MainLayout row>
       {isCameraInfo ? (

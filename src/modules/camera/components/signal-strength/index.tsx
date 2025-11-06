@@ -2,7 +2,6 @@ import {
   CategoryScale,
   Chart as ChartJS,
   Filler,
-  Legend,
   LinearScale,
   LineElement,
   PointElement,

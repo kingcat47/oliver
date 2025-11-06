@@ -8,6 +8,8 @@ import s from "./styles.module.scss";
 import MapViewer from "./map-viewer";
 import { SmallFireRobot, SmallFireSensor } from "../../small0robot-components";
 import { FireRobotDetailSection1, FireSensorDetailSection2 } from "@/modules/camera/widgets";
+import { FireRobot } from "@/mok/fire-robot";
+import { FireSensor } from "@/mok/fire-sensor";
 
 interface Robot {
   id: string;
@@ -250,18 +252,21 @@ export default function MakeBuildSection3({ onComplete: _onComplete, onAddSpace 
 
               {/* Floor List Section */}
               <div className={s.floorList}>
-                {filteredFloors.map((floor) => (
-                  <button
-                    key={floor}
-                    className={`${s.floorItem} ${floor === selectedFloor ? s.floorItemActive : ""}`}
-                    onClick={() => {
-                      setSelectedFloor(floor);
-                      setIsDropdownOpen(false);
-                    }}
-                  >
-                    {floor}
-                  </button>
-                ))}
+                {filteredFloors.map((floor: string | { name: string }) => {
+                  const floorName = typeof floor === 'string' ? floor : floor.name;
+                  return (
+                    <button
+                      key={floorName}
+                      className={`${s.floorItem} ${floorName === selectedFloor ? s.floorItemActive : ""}`}
+                      onClick={() => {
+                        setSelectedFloor(floorName);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {floorName}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Action Buttons Section */}
@@ -500,58 +505,61 @@ export default function MakeBuildSection3({ onComplete: _onComplete, onAddSpace 
             </div>
 
             <div className={s.managementFloorList}>
-              {filteredFloors.map((floor) => (
-                <div key={floor} className={s.managementFloorItem}>
-                  <div className={s.managementFloorLeft}>
-                    <div className={s.managementFloorInfo}>
-                    <div className={s.managementFloorLeftTop}>
-                    <div className={s.managementFloorIcon}>
-                      <Layers2 size={26} />
+              {filteredFloors.map((floor: string | { name: string }) => {
+                const floorName = typeof floor === 'string' ? floor : floor.name;
+                return (
+                  <div key={floorName} className={s.managementFloorItem}>
+                    <div className={s.managementFloorLeft}>
+                      <div className={s.managementFloorInfo}>
+                      <div className={s.managementFloorLeftTop}>
+                      <div className={s.managementFloorIcon}>
+                        <Layers2 size={26} />
+                      </div>
+                      {editingFloor === floorName ? (
+                        <input
+                          type="text"
+                          value={editedFloorName}
+                          onChange={(e) => setEditedFloorName(e.target.value)}
+                          className={s.managementFloorNameInput}
+                          autoFocus
+                        />
+                      ) : (
+                        <div className={s.managementFloorName}>{floorName}</div>
+                      )}
+                      </div>
+                      
+                       
+                        <div className={s.managementFloorAddress}>{building.address}</div>
+                      </div>
                     </div>
-                    {editingFloor === floor ? (
-                      <input
-                        type="text"
-                        value={editedFloorName}
-                        onChange={(e) => setEditedFloorName(e.target.value)}
-                        className={s.managementFloorNameInput}
-                        autoFocus
-                      />
-                    ) : (
-                      <div className={s.managementFloorName}>{floor}</div>
-                    )}
-                    </div>
-                    
-                     
-                      <div className={s.managementFloorAddress}>{building.address}</div>
+                    <div className={s.managementFloorActions}>
+                      {editingFloor === floorName ? (
+                        <button 
+                          className={s.managementSaveButton}
+                          onClick={handleSaveFloor}
+                        >
+                          <CheckIcon size={24} />
+                        </button>
+                      ) : (
+                        <button 
+                          className={s.managementEditButton}
+                          onClick={() => handleEditFloor(floorName)}
+                        >
+                          <Pencil size={24} />
+                        </button>
+                      )}
+                      {editingFloor !== floorName && (
+                        <button 
+                          className={s.managementDeleteButton}
+                          onClick={() => handleDeleteFloor(floorName)}
+                        >
+                          <Trash2 size={24} />
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <div className={s.managementFloorActions}>
-                    {editingFloor === floor ? (
-                      <button 
-                        className={s.managementSaveButton}
-                        onClick={handleSaveFloor}
-                      >
-                        <CheckIcon size={24} />
-                      </button>
-                    ) : (
-                      <button 
-                        className={s.managementEditButton}
-                        onClick={() => handleEditFloor(floor)}
-                      >
-                        <Pencil size={24} />
-                      </button>
-                    )}
-                    {editingFloor !== floor && (
-                      <button 
-                        className={s.managementDeleteButton}
-                        onClick={() => handleDeleteFloor(floor)}
-                      >
-                        <Trash2 size={24} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className={s.managementFooter}>
             </div>

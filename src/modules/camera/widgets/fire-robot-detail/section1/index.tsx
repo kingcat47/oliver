@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Segment } from "@/shared/components";
 import Button from "@/shared/components/butoon";
 import { Pencil, X, Trash2, Wifi, Timer, Calendar, BatteryLow, BatteryFull, Layers2, FireExtinguisher } from "lucide-react";
+import { FireRobot } from "@/mok/fire-robot";
+import { FireSensor } from "@/mok/fire-sensor";
 import s from "./styles.module.scss";
 
 // 로봇 정보 카드 컴포넌트
