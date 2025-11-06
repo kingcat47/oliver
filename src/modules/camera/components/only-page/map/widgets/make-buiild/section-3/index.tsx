@@ -45,9 +45,9 @@ export default function MakeBuildSection3({
   onAddSpace,
   buildings,
   floors,
-  maxFloorLevel,
-  onFetchFloors,
-  onAddFloor
+  maxFloorLevel: _maxFloorLevel,
+  onFetchFloors: _onFetchFloors,
+  onAddFloor: _onAddFloor
 }: Props) {
   const [zoomLevel, setZoomLevel] = useState(50);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
