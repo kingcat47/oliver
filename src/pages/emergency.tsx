@@ -59,10 +59,10 @@ export default function Emergency() {
   };
   return (
     <MainLayout hideSubHeader hideOverflow>
-<div style={{ display: "flex", flexDirection: "row", gap: "40px" }}>
+<div style={{ display: "flex", flexDirection: "row", gap: "40px", width: "100%", maxWidth: "1920px" }}>
 
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "32px", flex: "1", minWidth: 0 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           <span style={{ 
             color: "#8B8B8B", 
@@ -153,7 +153,7 @@ export default function Emergency() {
         </div>
       </div>
     
-       <div style={{ display: "flex", flexDirection: "column", gap: "32px", width: "100%", alignItems: "flex-end"}}>
+       <div style={{ display: "flex", flexDirection: "column", gap: "32px", width: "500px", flexShrink: 0, alignItems: "flex-end"}}>
             <div className={s.autoReportSection}>
 
 
@@ -186,7 +186,7 @@ export default function Emergency() {
               
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "500px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
               <span style={{ color: "#000", fontSize: "20px", fontWeight: "600" }}>
                 로봇 동작 기록
               </span>

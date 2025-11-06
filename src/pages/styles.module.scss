@@ -2,7 +2,8 @@
 
 .mapWrapper {
   position: relative;
-  width: 1316px;
+  width: 100%;
+  max-width: 1316px;
   height: 457px;
   overflow: hidden;
   border: 1px solid $border-base;
@@ -89,7 +90,8 @@
   flex-direction: row;
   gap: 16px;
   flex-wrap: wrap;
-  width: 1316px;
+  width: 100%;
+  max-width: 1316px;
 }
 
 .cameraVideo {
@@ -99,7 +101,9 @@
 }
 
 .videoFrame {
-  width: 363px;
+  width: 100%;
+  max-width: 363px;
+  min-width: 300px;
   height: 241px;
   background: #000;
   border-radius: $radius-12;
@@ -138,7 +142,8 @@
 }
 
 .autoReportSection {
-  width: 359px;
+  width: 100%;
+  max-width: 359px;
   padding: 20px;
   background: #fff;
   border-radius: $radius-12;
