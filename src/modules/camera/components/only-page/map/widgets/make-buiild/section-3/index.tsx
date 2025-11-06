@@ -467,7 +467,7 @@ export default function MakeBuildSection3({ onComplete: _onComplete, onAddSpace 
           >
             {isFireRobot ? (
               <FireRobotDetailSection1 
-                robot={selectedRobotDetail as FireRobot}
+                robot={selectedRobotDetail as unknown as FireRobot}
                 onClose={() => setSelectedRobotId(null)}
                 onDelete={() => {
                   setRobots(robots.filter(r => r.id !== selectedRobotId));
@@ -477,7 +477,7 @@ export default function MakeBuildSection3({ onComplete: _onComplete, onAddSpace 
               />
             ) : (
               <FireSensorDetailSection2 
-                sensor={selectedRobotDetail as FireSensor}
+                sensor={selectedRobotDetail as unknown as FireSensor}
                 onClose={() => setSelectedRobotId(null)}
                 onDelete={() => {
                   setRobots(robots.filter(r => r.id !== selectedRobotId));
