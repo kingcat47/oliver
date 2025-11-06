@@ -1,4 +1,5 @@
 import {  Menu, Bell } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { IconButton } from "@/shared/components";
 
 import s from "./style.module.scss";
@@ -10,6 +11,12 @@ interface Props {
 }
 
 export default function Header({ leftContent, rightContent, onMenuClick }: Props) {
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate("/login");
+  };
+
   return (
     <header className={s.header}>
       <div className={s.actions}>
@@ -26,6 +33,7 @@ export default function Header({ leftContent, rightContent, onMenuClick }: Props
           src="/sample/profile.png"
           alt="Oliver Profile"
           className={s.avatar}
+          onClick={handleProfileClick}
         />
       </div>
     </header>

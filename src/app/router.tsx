@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { Camera, Emergency, Home, Login, Map, Settings } from "@/pages";
+import { Camera, Emergency, Home, Login, Map, Settings, AuthCallback } from "@/pages";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/auth/callback",
+    element: <AuthCallback />,
   },
   {
     path: "/camera",

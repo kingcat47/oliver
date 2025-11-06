@@ -5,7 +5,7 @@ import { MapSection, NoMapSection } from "@/modules/camera/components/only-page"
 // import { getAllBuildings } from "@/api";
 
 export default function Map() {
-  const [isMap, setIsMap] = useState(false);
+  const [isMap] = useState(false);
   const [buildSection, setBuildSection] = useState(0);
   
   useEffect(() => {

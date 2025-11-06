@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { Segment } from "@/shared/components";
 
-import { CameraQualityLimitationCard, CameraSignalStrengthCard } from "../../components";
+import { CameraSignalStrengthCard } from "../../components";
 
 import s from "./style.module.scss";
 

@@ -1,4 +1,5 @@
 import s from "./login.module.scss";
+import { getGoogleAuthUrl } from "@/api/auth/service";
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,9 +23,21 @@ const GoogleIcon = () => (
 );
 
 export default function Login() {
-  const handleGoogleLogin = () => {
-    // TODO: Google 로그인 로직 구현
-    console.log("Google 로그인 클릭");
+  const handleGoogleLogin = async () => {
+    try {
+      // 현재 프론트엔드 URL 가져오기
+      const currentOrigin = window.location.origin;
+      const callbackUrl = `${currentOrigin}/auth/callback`;
+      
+      // 백엔드에서 Google OAuth URL 가져오기
+      const googleAuthUrl = await getGoogleAuthUrl(callbackUrl);
+      
+      // Google OAuth 페이지로 리다이렉트
+      window.location.href = googleAuthUrl;
+    } catch (error) {
+      console.error("Google 로그인 실패:", error);
+      alert("Google 로그인에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
