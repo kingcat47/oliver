@@ -21,9 +21,7 @@ const getToken = (): string | null => {
     return tokenCache;
   }
   
-  const cookieToken = getCookie("accessToken");
-  const localStorageToken = localStorage.getItem("accessToken");
-  const token = cookieToken || localStorageToken;
+  const token = getCookie("accessToken");
   
   tokenCache = token;
   cacheTimestamp = now;
@@ -43,6 +41,11 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const token = getToken();
+    console.log("=== API Request ===");
+    console.log("URL:", config.url);
+    console.log("Method:", config.method?.toUpperCase());
+    console.log("Token:", token ? `${token.substring(0, 20)}...` : "없음");
+    console.log("Full Token:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
