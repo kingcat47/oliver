@@ -10,16 +10,10 @@ export default function AuthCallback() {
     const handleCallback = async () => {
       try {
         const code = searchParams.get("code");
-        const token = searchParams.get("token");
         const error = searchParams.get("error");
 
         if (error) {
           navigate("/login", { replace: true });
-          return;
-        }
-
-        if (token) {
-          navigate("/", { replace: true });
           return;
         }
 
