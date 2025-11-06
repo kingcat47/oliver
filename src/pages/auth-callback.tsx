@@ -21,11 +21,13 @@ export default function AuthCallback() {
           return;
         }
 
-        // 토큰이 직접 전달된 경우
+        // 토큰이 직접 전달된 경우 (백엔드가 토큰을 쿼리 파라미터로 전달하는 경우)
+        // 하지만 백엔드가 쿠키를 주입한다고 했으므로 이 경우는 거의 없을 것
         if (token) {
-          // 토큰을 로컬 스토리지에 저장
-          localStorage.setItem("token", token);
-          // 홈으로 리다이렉트 (replace로 히스토리 정리)
+          console.log("토큰이 쿼리 파라미터로 전달됨:", token);
+          // 백엔드가 쿠키를 주입한다고 했으므로, 토큰 저장은 선택적
+          // 필요시에만 localStorage에 저장
+          // localStorage.setItem("token", token);
           navigate("/", { replace: true });
           return;
         }
@@ -34,33 +36,23 @@ export default function AuthCallback() {
         if (code) {
           try {
             console.log("Google OAuth callback code 받음:", code);
-            // GET 요청으로 code를 쿼리 파라미터로 전송
-            // 백엔드에서 쿠키를 주입해주므로 withCredentials: true 필요
+            // 백엔드로 GET 요청: /v1/auth/google/callback?code=코드값
+            // 백엔드에서 쿠키를 자동으로 주입해줌
             const response = await apiClient.get("/v1/auth/google/callback", {
               params: {
                 code,
               },
-              withCredentials: true, // 쿠키를 받기 위해 필요
             });
             
             console.log("로그인 성공 응답:", response.data);
             
-            // 백엔드가 응답으로 JWT 토큰을 반환하는 경우 (선택적)
-            // 쿠키에 JWT가 포함되어 있으면 이 부분은 필요 없음
-            if (response.data?.data?.token || response.data?.token) {
-              const jwtToken = response.data?.data?.token || response.data?.token;
-              localStorage.setItem("token", jwtToken);
-              console.log("JWT 토큰 저장됨");
-            }
-            
-            // 쿠키가 주입되었으므로 홈으로 리다이렉트 (replace로 히스토리 정리)
-            // 쿠키가 브라우저에 설정될 시간을 주기 위해 약간의 지연
-            console.log("로그인 성공, 홈으로 리다이렉트");
-            await new Promise(resolve => setTimeout(resolve, 100)); // 100ms 대기
+            // 백엔드가 쿠키를 주입해주므로, 쿠키가 브라우저에 설정될 시간을 주기 위해 약간의 지연
+            console.log("쿠키 주입 완료, 홈으로 리다이렉트");
+            await new Promise(resolve => setTimeout(resolve, 200)); // 200ms 대기
             navigate("/", { replace: true });
           } catch (error: any) {
             console.error("로그인 처리 실패:", error);
-            console.error("에러 상세:", error.response?.data);
+            console.error("에러 상세:", error.response?.status, error.response?.data);
             navigate("/login", { replace: true });
           }
           return;
