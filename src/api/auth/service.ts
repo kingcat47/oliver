@@ -60,17 +60,5 @@ export const refreshToken = async (): Promise<LoginResponseDto> => {
   return response.data;
 };
 
-/**
- * Google 로그인 URL 가져오기
- */
-export const getGoogleAuthUrl = async (callbackUrl: string): Promise<string> => {
-  const response = await apiClient.get<{ url: string }>("/v1/auth/google", {
-    params: {
-      callback: callbackUrl,
-    },
-  });
-  return response.data.url;
-};
-
 
 

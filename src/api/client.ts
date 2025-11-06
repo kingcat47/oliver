@@ -7,6 +7,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // 쿠키를 주고받기 위해 필요
 });
 
 // 요청 인터셉터 (인증 토큰 추가 등)

@@ -30,21 +30,22 @@ export default function AuthCallback() {
           return;
         }
 
-        // code가 전달된 경우, 백엔드로 전송하여 토큰 받기
+        // code가 전달된 경우, 백엔드로 GET 요청 (쿠키 주입)
         if (code) {
           try {
-            const response = await apiClient.post("/v1/auth/google/callback", {
-              code,
+            // GET 요청으로 code를 쿼리 파라미터로 전송
+            // 백엔드에서 쿠키를 주입해주므로 withCredentials: true 필요
+            await apiClient.get("/v1/auth/google/callback", {
+              params: {
+                code,
+              },
+              withCredentials: true, // 쿠키를 받기 위해 필요
             });
             
-            if (response.data.token) {
-              localStorage.setItem("token", response.data.token);
-              navigate("/");
-            } else {
-              throw new Error("토큰을 받지 못했습니다.");
-            }
+            // 쿠키가 주입되었으므로 홈으로 리다이렉트
+            navigate("/");
           } catch (error) {
-            console.error("토큰 교환 실패:", error);
+            console.error("로그인 처리 실패:", error);
             navigate("/login");
           }
           return;
