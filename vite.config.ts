@@ -1,10 +1,18 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    sentryVitePlugin({
+      org: "71yuchan",
+      project: "oliver-frontend",
+    }),
+  ],
+
   css: {
     preprocessorOptions: {
       scss: {
@@ -13,9 +21,14 @@ export default defineConfig({
       },
     },
   },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
+  },
+
+  build: {
+    sourcemap: true,
   },
 });
