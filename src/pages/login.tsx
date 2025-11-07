@@ -75,6 +75,11 @@ export default function Login() {
           <GoogleIcon />
           <span>구글로 시작하기</span>
         </button>
+        <button
+        onClick={() => {
+          throw new Error('This is your first error!');
+        }}
+      >asd</button>
       </div>
     </div>
   );
