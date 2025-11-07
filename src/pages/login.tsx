@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import apiClient from "@/api/client";
 import s from "./login.module.scss";
 
 const GoogleIcon = () => (
@@ -25,29 +23,27 @@ const GoogleIcon = () => (
 );
 
 export default function Login() {
-  const navigate = useNavigate();
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await apiClient.get("/v1/auth/@me");
-        navigate("/", { replace: true });
-      } catch (error) {
-        setIsChecking(false);
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
+    // 콜백만 제대로 받으면 메인으로 보내므로, 여기서는 인증 체크하지 않음
+    setIsChecking(false);
+  }, []);
 
   const handleGoogleLogin = () => {
-    const backendUrl = "https://oliver-api.thnos.app";
-    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-    const frontendUrl = isLocal ? "http://localhost:5173" : window.location.origin;
-    const callbackUrl = `${frontendUrl}/auth/callback`;
-    const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
-    window.location.href = googleAuthUrl;
+    try {
+      console.log("=== 구글 로그인 버튼 클릭 ===");
+      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+      const backendUrl = isLocal ? "https://oliver-api-staging.thnos.app" : "https://oliver-api.thnos.app";
+      
+      // 1) 백엔드서버도메인/v1/auth/google로 redirect
+      const googleAuthUrl = `${backendUrl}/v1/auth/google`;
+      console.log("구글 로그인 URL:", googleAuthUrl);
+      
+      window.location.href = googleAuthUrl;
+    } catch (error) {
+      console.error("구글 로그인 에러:", error);
+    }
   };
 
   if (isChecking) {
