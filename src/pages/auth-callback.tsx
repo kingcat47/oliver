@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import apiClient from "@/api/client";
 
 export default function AuthCallback() {
@@ -24,6 +25,7 @@ export default function AuthCallback() {
             });
             navigate("/", { replace: true });
           } catch (error: any) {
+            console.error(error);
             navigate("/login", { replace: true });
           }
           return;
@@ -44,16 +46,17 @@ export default function AuthCallback() {
   }, [searchParams, navigate]);
 
   return (
-    <div style={{ 
-      display: "flex", 
-      justifyContent: "center", 
-      alignItems: "center", 
-      height: "100vh",
-      fontSize: "16px",
-      color: "#666"
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        fontSize: "16px",
+        color: "#666",
+      }}
+    >
       로그인 처리 중...
     </div>
   );
 }
-
