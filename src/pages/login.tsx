@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import apiClient from "@/api/client";
+
 import s from "./login.module.scss";
 
 const GoogleIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M17.64 9.20454C17.64 8.56636 17.5827 7.95272 17.4764 7.36363H9V10.845H13.8436C13.635 11.97 13.0009 12.9231 12.0477 13.5613V15.8195H14.9564C16.6582 14.2527 17.64 11.9454 17.64 9.20454Z"
       fill="#4285F4"
@@ -42,8 +50,10 @@ export default function Login() {
   }, [navigate]);
 
   const handleGoogleLogin = () => {
-    const backendUrl = import.meta.env.VITE_API_BASE_URL || "https://oliver-api.thnos.app";
-    const frontendUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
+    const backendUrl =
+      import.meta.env.VITE_API_BASE_URL || "https://oliver-api.thnos.app";
+    const frontendUrl =
+      import.meta.env.VITE_FRONTEND_URL || window.location.origin;
     const callbackUrl = `${frontendUrl}/auth/callback`;
     const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
     window.location.href = googleAuthUrl;
@@ -51,14 +61,16 @@ export default function Login() {
 
   if (isChecking) {
     return (
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        fontSize: "16px",
-        color: "#666"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "16px",
+          color: "#666",
+        }}
+      >
         로딩 중...
       </div>
     );
@@ -69,7 +81,9 @@ export default function Login() {
       <div className={s.content}>
         <div className={s.header}>
           <h1 className={s.title}>대시보드 로그인</h1>
-          <p className={s.subtitle}>Google 로그인으로 올리버 로봇을 관리하세요</p>
+          <p className={s.subtitle}>
+            Google 로그인으로 올리버 로봇을 관리하세요
+          </p>
         </div>
         <button className={s.googleButton} onClick={handleGoogleLogin}>
           <GoogleIcon />
@@ -79,6 +93,3 @@ export default function Login() {
     </div>
   );
 }
-
-
-
