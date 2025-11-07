@@ -70,6 +70,7 @@ export default function MakeBuildSection3({
   onFetchFloors: _onFetchFloors,
   onAddFloor: _onAddFloor,
 }: Props) {
+  // comment: 지도 줌 레벨 상태 (50% ~ 200% 범위)
   const [zoomLevel, setZoomLevel] = useState(50);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState("");
@@ -78,9 +79,12 @@ export default function MakeBuildSection3({
     null,
   );
   const [robots, setRobots] = useState<Robot[]>([]);
+  // comment: 지도 오프셋 상태 - 지도를 드래그할 때 x, y 좌표로 이동 위치를 저장
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
+  // comment: 지도 드래그 중인지 여부를 추적하는 상태
   const [isMapDragging, setIsMapDragging] = useState(false);
   const [draggedRobotId, setDraggedRobotId] = useState<string | null>(null);
+  // comment: 지도 스케일 상태 - MapViewer에서 계산된 실제 스케일 값 (zoomLevel / 100)
   const [mapScale, setMapScale] = useState(1);
   const [showProductSelector, setShowProductSelector] = useState(false);
   const [selectedProductType, setSelectedProductType] = useState<
@@ -103,6 +107,7 @@ export default function MakeBuildSection3({
     draggedRobotIdRef.current = draggedRobotId;
   }, [draggedRobotId]);
 
+  // comment: mapScale 변경 시 ref에 동기화하여 최신 스케일 값을 유지
   useEffect(() => {
     mapScaleRef.current = mapScale;
   }, [mapScale]);
@@ -144,9 +149,12 @@ export default function MakeBuildSection3({
     );
   };
 
+  // comment: 지도 드래그 시작 핸들러 - 마우스 다운 시 지도 드래그 모드로 전환하고 시작 위치 저장
   const handleMapMouseDown = (e: React.MouseEvent) => {
+    // comment: 로봇 컴포넌트를 클릭한 경우 지도 드래그가 아닌 로봇 드래그로 처리
     if ((e.target as HTMLElement).closest("[data-robot]")) return;
     setIsMapDragging(true);
+    // comment: 현재 마우스 위치에서 지도 오프셋을 뺀 값을 시작 위치로 저장
     const startPos = { x: e.clientX - mapOffset.x, y: e.clientY - mapOffset.y };
     dragStartRef.current = startPos;
   };
@@ -163,9 +171,12 @@ export default function MakeBuildSection3({
     dragStartRef.current = startPos;
   };
 
+  // comment: 지도 줌 핸들러 - 마우스 휠 이벤트로 지도 확대/축소 (50% ~ 200% 범위 제한)
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    // comment: 휠 델타 값을 -0.1로 곱하여 줌 레벨 변화량 계산 (음수로 곱하여 자연스러운 방향)
     const delta = e.deltaY * -0.1;
+    // comment: 새로운 줌 레벨 계산 (50% ~ 200% 범위로 제한)
     const newZoom = Math.round(Math.min(200, Math.max(50, zoomLevel + delta)));
     setZoomLevel(newZoom);
   };
@@ -225,15 +236,19 @@ export default function MakeBuildSection3({
     selectedRobotDetail &&
     robots.find((r) => r.id === selectedRobotId)?.type === "robot";
 
+  // comment: 전역 마우스 이벤트 리스너 - 지도 드래그 및 로봇 드래그 처리
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
+      // comment: 지도 드래그 중인 경우 마우스 이동에 따라 지도 오프셋 업데이트
       if (isMapDragging) {
         setMapOffset({
           x: e.clientX - dragStartRef.current.x,
           y: e.clientY - dragStartRef.current.y,
         });
       }
+      // comment: 로봇 드래그 중인 경우 마우스 이동에 따라 로봇 위치 업데이트 (지도 스케일 고려)
       if (draggedRobotIdRef.current) {
+        // comment: 마우스 좌표를 지도 스케일로 나누어 실제 지도 좌표계로 변환
         const newX = (e.clientX - dragStartRef.current.x) / mapScaleRef.current;
         const newY = (e.clientY - dragStartRef.current.y) / mapScaleRef.current;
         setRobots(
@@ -246,6 +261,7 @@ export default function MakeBuildSection3({
       }
     };
 
+    // comment: 마우스 업 이벤트 - 드래그 종료 처리
     const handleGlobalMouseUp = () => {
       setIsMapDragging(false);
       setDraggedRobotId(null);
@@ -357,21 +373,26 @@ export default function MakeBuildSection3({
         </div>
       </div>
 
+      {/* comment: 지도 컨테이너 - 드래그 및 줌 이벤트 핸들러 연결 */}
       <div
         onMouseDown={handleMapMouseDown}
         onWheel={handleWheel}
         style={{ width: "100%", height: "100%" }}
       >
+        {/* comment: MapViewer 컴포넌트 - 실제 지도 이미지를 렌더링하고 줌/오프셋 적용 */}
         <MapViewer
           zoomLevel={zoomLevel}
           mapOffset={mapOffset}
           onMapScaleChange={setMapScale}
         >
+          {/* comment: 지도 위에 표시될 로봇 컴포넌트들 - 지도 스케일에 맞춰 위치와 크기 조정 */}
           {robots.map((robot) => {
             const RobotComponent =
               robot.type === "sensor" ? SmallFireSensor : SmallFireRobot;
             const isOverlapped = checkOverlap(robot);
+            // comment: 현재 지도 스케일 값 (0이면 기본값 1 사용)
             const currentScale = mapScale || 1;
+            // comment: 로봇의 실제 좌표에 지도 스케일을 곱하여 화면 좌표로 변환
             return (
               <RobotComponent
                 key={robot.id}
