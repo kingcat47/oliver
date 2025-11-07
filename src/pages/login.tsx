@@ -43,7 +43,8 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     const backendUrl = "https://oliver-api.thnos.app";
-    const frontendUrl =  window.location.origin;
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const frontendUrl = isLocal ? "http://localhost:5173" : window.location.origin;
     const callbackUrl = `${frontendUrl}/auth/callback`;
     const googleAuthUrl = `${backendUrl}/v1/auth/google?callback=${encodeURIComponent(callbackUrl)}`;
     window.location.href = googleAuthUrl;
