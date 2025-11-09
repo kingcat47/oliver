@@ -9,13 +9,17 @@ interface Props {
   isOpen?: boolean;
 }
 
-export default function Sidebar({ isOpen = true }: Props) {
+export default function Sidebar({ isOpen = false }: Props) {
   const pathname = useLocation().pathname;
 
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <aside className={s.sidebar} data-open={isOpen}>
+    <div className={s.container} data-open={isOpen}>
+      <div className={s.header}>
+        <p className={s.title}>올리버 대시보드</p>
+        <p className={s.description}>v1.2.5</p>
+      </div>
       <ul className={s.menu}>
         <SidebarItem
           icon={Box}
@@ -43,6 +47,6 @@ export default function Sidebar({ isOpen = true }: Props) {
         />
         <div className={s.full} />
       </ul>
-    </aside>
+    </div>
   );
 }

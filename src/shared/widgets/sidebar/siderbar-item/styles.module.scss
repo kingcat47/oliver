@@ -1,4 +1,3 @@
-
 .item {
   width: 100%;
   list-style: none;
@@ -7,20 +6,20 @@
 .link {
   width: 100%;
   height: 50px;
-  
+
   display: flex;
   align-items: center;
   gap: $spacing-10;
-  
+
   padding: 0 $spacing-16;
-  
+
   color: $content-weak;
   text-decoration: none;
-  
+
   border-radius: $radius-8;
-  
+
   transition: all 0.2s ease;
-  
+
   &:hover {
     background-color: $background-hover;
     color: $content-hover;
@@ -43,11 +42,10 @@
   .link {
     background-color: $background-strong;
     color: $content-side;
-    
+
     &:hover {
       background-color: $background-strong;
       color: $content-side;
     }
   }
 }
-

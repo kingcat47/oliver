@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import s from "./styles.module.scss";
 
@@ -17,10 +18,10 @@ export default function SidebarItem({
 }: Props) {
   return (
     <li className={s.item} data-active={isActive}>
-      <a href={href} className={s.link}>
+      <Link to={href} className={s.link}>
         <Icon className={s.icon} />
         <span className={s.text}>{text}</span>
-      </a>
+      </Link>
     </li>
   );
 }
