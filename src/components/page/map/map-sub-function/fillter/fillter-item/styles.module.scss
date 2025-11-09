@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  width: 198px;
+  height: fit-content;
+  padding: var(--Spacing-8, 8px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--Spacing-8, 8px);
+  border-radius: var(--Radius-16, 16px);
+  border: 1px solid var(--Border-Base, #eaeaea);
+  background: var(--Fill-Base, #fff);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
+}
+
+.search {
+  display: flex;
+  padding: var(--Spacing-8, 8px) var(--Spacing-10, 10px);
+  align-items: center;
+  gap: var(--Spacing-8, 8px);
+  align-self: stretch;
+  border-radius: var(--Radius-12, 12px);
+  border: 1px solid var(--Border-Base, #eaeaea);
+  background: var(--Fill-Strong, #eff0f2);
+
+  .searchInput {
+    color: var(--Content-Weak, #8b8b8b);
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--Fill-Strong, #eff0f2);
+    /* Body/Large */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+  }
+}
+
+.floorItem {
+  display: flex;
+  width: 100%;
+  padding: var(--Spacing-10, 10px) var(--Spacing-12, 12px);
+  align-items: center;
+  gap: var(--Spacing-6, 6px);
+  align-self: stretch;
+  border-radius: var(--Radius-12, 12px);
+  background: var(--Fill-Base, #fff);
+  cursor: pointer;
+
+  .floorName {
+    color: var(--Content-Base, #272727);
+
+    /* Body/Large */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+  }
+
+  &.selected {
+    background: var(--Fill-Strong, #eff0f2);
+  }
+}
+
+.footer {
+  width: 100%;
+}
+.button {
+  display: flex;
+  width: 100%;
+  padding: var(--Spacing-10, 10px) var(--Spacing-12, 12px);
+  align-items: center;
+  gap: var(--Spacing-6, 6px);
+  align-self: stretch;
+  background: var(--Fill-Base, #fff);
+  border: none;
+  .buttonText {
+    color: var(--Content-Weak, #8b8b8b);
+
+    /* Body/Large */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+  }
+}
+.Icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  gap: 10px;
+  color: #a1a1a1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.divbox {
+  width: 198px;
+  height: 100px;
+  background-color: red;
+}

@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--Spacing-6, 6px);
+}
+
+.button {
+  display: flex;
+  padding: var(--Spacing-10, 10px);
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-radius: var(--Radius-12, 12px);
+  background: var(--Fill-Base, #fff);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.scale {
+  display: flex;
+  padding: var(--Spacing-10, 10px) var(--Spacing-16, 16px);
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: var(--Radius-12, 12px);
+  background: var(--Fill-Base, #fff);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}

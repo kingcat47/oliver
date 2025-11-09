@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  padding: 12px var(--Spacing-12, 12px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: var(--Radius-32, 32px);
+  border: 8px solid #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  user-select: none;
+
+  &:active {
+    cursor: grabbing !important;
+  }
+
+  &.sensor {
+    background: #fff9ed;
+  }
+
+  &.robot {
+    background: #e8f2ff;
+  }
+
+  &.overlapped {
+    opacity: 0.5;
+  }
+}
+
+.image {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+}
+
+.name {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
