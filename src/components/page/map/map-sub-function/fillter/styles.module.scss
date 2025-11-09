@@ -1,0 +1,20 @@
+.container {
+  width: 100%;
+  max-width: 198px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--Spacing-16, 16px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--Spacing-16, 16px);
+  align-items: center;
+  gap: var(--Spacing-10, 10px);
+  border-radius: var(--Radius-Full, 9999px);
+  background: var(--Fill-Base, #fff);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  user-select: none;
+}

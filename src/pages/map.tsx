@@ -8,7 +8,7 @@ import {
 import {
   MapSection,
   NoMapSection,
-} from "@/modules/camera/components/only-page";
+} from "@/components/only-page";
 import MainLayout from "@/shared/components/main-layout";
 
 interface Building {

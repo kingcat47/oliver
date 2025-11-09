@@ -40,3 +40,10 @@ export interface BuildingResponseDto {
   data?: BuildingDto;
 }
 
+
+
+
+
+
+
+

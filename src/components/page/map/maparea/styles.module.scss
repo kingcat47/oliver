@@ -1,0 +1,32 @@
+.map {
+  width: 1403px;
+  height: 648px;
+  flex-shrink: 0;
+  border-radius: var(--Radius-32, 32px);
+  border: 20px solid #fff;
+  background: var(--Fill-Strong, #eff0f2);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+
+  &.dragging {
+    cursor: grabbing;
+  }
+
+  .mapWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    pointer-events: none;
+  }
+
+  .mapImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  gap: 1px;
+  align-self: stretch;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.robotCell {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.robotImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.robotInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.robotName {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.robotType {
+  color: var(--Content-Weak, #8b8b8b);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+
+.statusCell {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+}
+
+.statusText {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.batteryCell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.batteryBar {
+  width: 100%;
+  height: 9px;
+  background-color: var(--fill-warning-base, #fff9ee);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.batteryFill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.batteryText {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.locationCell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.locationText {
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #000000;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.dateCell {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.dateText {
+  font-family: "Pretendard", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #000000;
+  margin: 0;
+  white-space: nowrap;
+}

@@ -1,15 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import ProtectedRoute from "@/components/ProtectedRoute";
 import {
   AuthCallback,
-  Camera,
   Emergency,
-  Home,
   Login,
   Map,
+  MapRegisterSection1,
+  MapRegisterSection2,
+  Register1,
+  Register2,
   Settings,
 } from "@/pages";
+
+import { Robot, Camera } from "@/pages/index";
 
 export const router = createBrowserRouter([
   {
@@ -26,42 +29,38 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <ProtectedRoute>
-        <Home />
-      </ProtectedRoute>
-    ),
+    element: <Robot />,
+  },
+  {
+    path: "/robot/register/section1",
+    element: <Register1 />,
+  },
+  {
+    path: "/robot/register/section2",
+    element: <Register2 />,
   },
   {
     path: "/camera",
-    element: (
-      <ProtectedRoute>
-        <Camera />
-      </ProtectedRoute>
-    ),
+    element: <Camera />,
   },
   {
     path: "/emergency",
-    element: (
-      <ProtectedRoute>
-        <Emergency />
-      </ProtectedRoute>
-    ),
+    element: <Emergency />,
   },
   {
     path: "/map",
-    element: (
-      <ProtectedRoute>
-        <Map />
-      </ProtectedRoute>
-    ),
+    element: <Map />,
+  },
+  {
+    path: "/map/register/section1",
+    element: <MapRegisterSection1 />,
+  },
+  {
+    path: "/map/register/section2",
+    element: <MapRegisterSection2 />,
   },
   {
     path: "/settings",
-    element: (
-      <ProtectedRoute>
-        <Settings />
-      </ProtectedRoute>
-    ),
+    element: <Settings />,
   },
 ]);
