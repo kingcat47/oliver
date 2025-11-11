@@ -69,11 +69,8 @@ export const apiClient = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
   },
-  withCredentials: true,
+  withCredentials: true, // 쿠키를 주고받기 위해 필수
 });
 
 apiClient.interceptors.request.use(
@@ -126,6 +123,16 @@ apiClient.interceptors.response.use(
     console.log("URL:", response.config.url);
     console.log("Status:", response.status);
     console.log("Data:", response.data);
+    console.log("Response Headers:", response.headers);
+    
+    // Set-Cookie 헤더 확인
+    const setCookieHeader = response.headers["set-cookie"] || response.headers["Set-Cookie"];
+    if (setCookieHeader) {
+      console.log("✅ Set-Cookie 헤더 받음:", setCookieHeader);
+    } else {
+      console.log("⚠️ Set-Cookie 헤더 없음");
+    }
+    
     return response;
   },
   (error: AxiosError) => {

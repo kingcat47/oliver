@@ -96,7 +96,7 @@ Sentry.init({
               // 현재는 모든 프레임 유지 (커스텀 에러로 이미 단순화됨)
               // 필요시 번들된 파일이나 node_modules 필터링 가능
               return true;
-            },
+            }
           );
         }
         return exception;
@@ -116,7 +116,5 @@ Sentry.init({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+  <RouterProvider router={router} />
 );

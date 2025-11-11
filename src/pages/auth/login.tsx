@@ -38,14 +38,20 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     try {
-      console.log("=== 구글 로그인 버튼 클릭 ===");
-      const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-      const backendUrl = isLocal ? "https://oliver-api-staging.thnos.app" : "https://oliver-api.thnos.app";
-      
-      // 1) 백엔드서버도메인/v1/auth/google로 redirect
-      const googleAuthUrl = `${backendUrl}/v1/auth/google`;
-      console.log("구글 로그인 URL:", googleAuthUrl);
-      
+      const isLocal =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+      const backendUrl = isLocal
+        ? "https://oliver-api-staging.thnos.app"
+        : "https://oliver-api.thnos.app";
+
+      const frontendCallbackUrl = isLocal
+        ? "https://oliver-api-staging.thnos.app/v1/auth/google/callback"
+        : "https://oliver-api.thnos.app/v1/auth/google/callback";
+
+      // 1) 백엔드서버도메인/v1/auth/google로 redirect (redirect_uri 파라미터 포함)
+      const googleAuthUrl = `${backendUrl}/v1/auth/google?redirect_uri=${encodeURIComponent(frontendCallbackUrl)}`;
+
       window.location.href = googleAuthUrl;
     } catch (error) {
       console.error("구글 로그인 에러:", error);
