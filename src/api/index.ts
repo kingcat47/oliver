@@ -1,5 +1,4 @@
 // API 서비스 export
-export * from "./auth/service";
 export * from "./bot/service";
 export * from "./building/service";
 

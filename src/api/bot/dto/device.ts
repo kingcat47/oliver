@@ -63,3 +63,27 @@ export interface DeleteDeviceResponseDto {
   status: string;
   message: string;
 }
+
+export interface RegisterRobotDto {
+  id: string;
+  buildingId: string;
+  floorId: string;
+  name: string;
+}
+
+export interface RegisterSensorDto {
+  id: string;
+  buildingId: string;
+  floorId: string;
+  name: string;
+  tuyaDeviceRegisterKey?: string;
+}
+
+export interface RegisterSuccessResponseDto {
+  deviceId: string;
+  name: string;
+  type: DeviceType;
+  buildingId: string;
+  floorId: string;
+  createdAt: string;
+}
