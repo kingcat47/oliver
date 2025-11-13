@@ -11,18 +11,16 @@ import FillterItem, {
 } from "@/components/page/map/map-sub-function/fillter/fillter-item";
 import MapArea from "@/components/page/map/maparea";
 import DeviceItem from "@/components/page/map/device";
+import { getBuildingFloors, getAllBuildings } from "@/api/building/service";
+import { getBuildingFloorMap } from "@/api/map/service";
+import { getBuildingFloorRobots } from "@/api/bot/service";
+import { DeviceType } from "@/api/bot/dto/device";
 
 interface HasFloorsProps {
   mapImageUrl?: string;
 }
 
-const mockFloors: Floor[] = [
-  { id: "1", level: 1, name: "토른 하숙집 1F" },
-  { id: "2", level: 2, name: "토른 하숙집 2F" },
-  { id: "3", level: 3, name: "토른 하숙집 3F" },
-];
-
-interface MockDevice {
+interface Device {
   id: string;
   name: string;
   type: "robot" | "sensor";
@@ -36,24 +34,12 @@ interface PlacedDevice {
   y: number;
 }
 
-const mockDevices: MockDevice[] = [
-  { id: "robot-1", name: "소화 로봇 1호", type: "robot" },
-  { id: "robot-2", name: "소화 로봇 2호", type: "robot" },
-  { id: "robot-3", name: "소화 로봇 3호", type: "robot" },
-  { id: "robot-4", name: "소화 로봇 4호", type: "robot" },
-  { id: "sensor-1", name: "화재 감지기 1호", type: "sensor" },
-  { id: "sensor-2", name: "화재 감지기 2호", type: "sensor" },
-  { id: "sensor-3", name: "화재 감지기 3호", type: "sensor" },
-  { id: "sensor-4", name: "화재 감지기 4호", type: "sensor" },
-];
-
 export default function HasFloors({
   mapImageUrl = "/sample/mpas/my_map.png",
 }: HasFloorsProps) {
   const navigate = useNavigate();
-  const [selectedFloorId, setSelectedFloorId] = useState<string>(
-    mockFloors[0]?.id || "1"
-  );
+  const [floors, setFloors] = useState<Floor[]>([]);
+  const [selectedFloorId, setSelectedFloorId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(100);
@@ -61,8 +47,107 @@ export default function HasFloors({
   const [draggedDeviceId, setDraggedDeviceId] = useState<string | null>(null);
   const [isDraggingDevice, setIsDraggingDevice] = useState(false);
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
+  const [currentMapUrl, setCurrentMapUrl] = useState<string>(mapImageUrl);
+  const [buildingId, setBuildingId] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [devicesLoading, setDevicesLoading] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const mapAreaRef = useRef<HTMLDivElement | null>(null);
+
+  // 층 목록 가져오기
+  useEffect(() => {
+    const fetchFloors = async () => {
+      try {
+        setLoading(true);
+        const buildingsResponse = await getAllBuildings();
+        if (buildingsResponse.data.length === 0) {
+          return;
+        }
+        const firstBuildingId = buildingsResponse.data[0].id;
+        setBuildingId(firstBuildingId);
+
+        const floorsResponse = await getBuildingFloors();
+        const floorsData: Floor[] = floorsResponse.data.map((floor) => ({
+          id: floor.id,
+          level: floor.level,
+          name: floor.name,
+        }));
+        setFloors(floorsData);
+
+        // 첫 번째 층 선택
+        if (floorsData.length > 0 && !selectedFloorId) {
+          setSelectedFloorId(floorsData[0].id);
+        }
+      } catch (error) {
+        console.error("층 목록 가져오기 실패:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFloors();
+  }, []);
+
+  // 선택된 층의 맵 이미지 가져오기
+  useEffect(() => {
+    const fetchMap = async () => {
+      if (!selectedFloorId || !buildingId) return;
+
+      try {
+        const mapResponse = await getBuildingFloorMap(
+          buildingId,
+          selectedFloorId
+        );
+        console.log("맵 API 응답:", mapResponse);
+        console.log("mapPgmUrl:", mapResponse.data.mapPgmUrl);
+        console.log("mapYamlUrl:", mapResponse.data.mapYamlUrl);
+        // mapPgmUrl을 맵 이미지로 사용 (PGM 파일은 이미지 형식)
+        const mapUrl = mapResponse.data.mapPgmUrl || mapImageUrl;
+        console.log("사용할 맵 URL:", mapUrl);
+        setCurrentMapUrl(mapUrl);
+      } catch (error) {
+        console.error("맵 이미지 가져오기 실패:", error);
+        // 에러 발생 시 기본 이미지 사용
+        setCurrentMapUrl(mapImageUrl);
+      }
+    };
+
+    fetchMap();
+  }, [selectedFloorId, buildingId, mapImageUrl]);
+
+  // 선택된 층의 로봇 목록 가져오기
+  useEffect(() => {
+    const fetchRobots = async () => {
+      if (!selectedFloorId || !buildingId) {
+        setDevices([]);
+        return;
+      }
+
+      try {
+        setDevicesLoading(true);
+        const robots = await getBuildingFloorRobots(
+          buildingId,
+          selectedFloorId
+        );
+        // DeviceDto를 Device 형태로 변환
+        const devicesData: Device[] = robots.map((robot) => ({
+          id: robot.deviceId,
+          name: robot.name,
+          type: robot.type === DeviceType.ROBOT ? "robot" : "sensor",
+        }));
+        setDevices(devicesData);
+        console.log("해당 층의 로봇 목록:", devicesData);
+      } catch (error) {
+        console.error("로봇 목록 가져오기 실패:", error);
+        setDevices([]);
+      } finally {
+        setDevicesLoading(false);
+      }
+    };
+
+    fetchRobots();
+  }, [selectedFloorId, buildingId]);
 
   const handleZoomIn = () => {
     const newZoom = Math.min(200, zoomLevel + 10);
@@ -77,7 +162,7 @@ export default function HasFloors({
   // 디바이스가 할당 필요 로봇 섹션에 있는지 확인
   const getUnplacedDevices = () => {
     const placedIds = new Set(placedDevices.map((d) => d.id));
-    return mockDevices.filter((device) => !placedIds.has(device.id));
+    return devices.filter((device) => !placedIds.has(device.id));
   };
 
   // 디바이스 드래그 시작 (할당 필요 로봇 섹션에서)
@@ -129,7 +214,7 @@ export default function HasFloors({
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDraggingDevice || !draggedDeviceId) return;
 
-      const device = mockDevices.find((d) => d.id === draggedDeviceId);
+      const device = devices.find((d) => d.id === draggedDeviceId);
       if (!device) return;
 
       // 지도 영역 확인 - MapArea의 실제 DOM 요소 찾기
@@ -212,10 +297,8 @@ export default function HasFloors({
   }, [isDraggingDevice, draggedDeviceId, zoomLevel, mapOffset, placedDevices]);
 
   // 선택된 floor의 이름 가져오기
-  const selectedFloor = mockFloors.find(
-    (floor) => floor.id === selectedFloorId
-  );
-  const selectedFloorName = selectedFloor?.name || mockFloors[0]?.name || "1층";
+  const selectedFloor = floors.find((floor) => floor.id === selectedFloorId);
+  const selectedFloorName = selectedFloor?.name || floors[0]?.name || "1층";
 
   return (
     <MainLayout backgroundVariant="gray">
@@ -231,13 +314,13 @@ export default function HasFloors({
         <div className={s.mapsection}>
           {isFilterOpen ? (
             <FillterItem
-              floors={mockFloors}
+              floors={floors}
               selectedFloorId={selectedFloorId}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
               onFloorSelect={setSelectedFloorId}
               onAddFloor={() => {
-                console.log("공간 추가");
+                navigate("/map/register/section1");
               }}
               onManage={() => {
                 console.log("관리");
@@ -266,15 +349,29 @@ export default function HasFloors({
               </div>
             </div>
             <div ref={mapAreaRef}>
-              <MapArea
-                mapImageUrl={mapImageUrl}
-                zoomLevel={zoomLevel}
-                onZoomLevelChange={setZoomLevel}
-                placedDevices={placedDevices}
-                onDeviceDragStart={handlePlacedDeviceDragStart}
-                mapOffset={mapOffset}
-                onMapOffsetChange={setMapOffset}
-              />
+              {loading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    color: "#8B8B8B",
+                  }}
+                >
+                  로딩 중...
+                </div>
+              ) : (
+                <MapArea
+                  mapImageUrl={currentMapUrl}
+                  zoomLevel={zoomLevel}
+                  onZoomLevelChange={setZoomLevel}
+                  placedDevices={placedDevices}
+                  onDeviceDragStart={handlePlacedDeviceDragStart}
+                  mapOffset={mapOffset}
+                  onMapOffsetChange={setMapOffset}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -285,7 +382,12 @@ export default function HasFloors({
             leftIcon={Plus}
             onClick={() => navigate("/robot/register/section1")}
           />
-          <button className={s.button_scan}>
+          <button
+            className={s.button_scan}
+            onClick={() => {
+              navigate(`/map/register/section2?floorId=${selectedFloorId || ""}`);
+            }}
+          >
             <Radar size={16} />
             <span className={s.button_scan_text}>공간 다시 스캔하기</span>
           </button>

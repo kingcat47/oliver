@@ -23,6 +23,8 @@
     padding: var(--Spacing-12, 12px) var(--Spacing-16, 16px);
     align-items: center;
     gap: var(--Spacing-8, 8px);
+    border: 1px solid var(--border-base, #eaeaea);
+    border-radius: var(--radius-8, 8px);
 
     .searchIcon {
       color: var(--content-weak, #8b8b8b);
@@ -30,15 +32,19 @@
     }
 
     .searchInput {
-      color: var(--Content-Weak, #8b8b8b);
+      color: var(--content, #000000);
       font-family: Pretendard;
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
       line-height: 24px; /* 150% */
+      border: none;
 
       &::placeholder {
         color: var(--content-weak, #8b8b8b);
+      }
+      &:focus {
+        outline: none;
       }
     }
   }

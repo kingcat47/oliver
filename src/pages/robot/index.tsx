@@ -11,6 +11,7 @@ export default function Robot() {
   useEffect(() => {
     const fetchDevices = async () => {
       try {
+        console.log("로봇이있는가?");
         const devices = await getAllDevices();
         setHasRobots(devices.length > 0);
       } catch (error) {

@@ -42,4 +42,72 @@
     width: fit-content;
     height: 268px;
   }
+
+  .floorList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .floorItem {
+    display: flex;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #eaeaea;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+
+    &.selected {
+      background: #eff0f2;
+      border-color: #000;
+    }
+  }
+
+  .floorInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .floorName {
+    color: #000;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .floorLevel {
+    color: #8b8b8b;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .addFloorForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eaeaea;
+    background: #fff;
+  }
+
+  .formButtons {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
 }
