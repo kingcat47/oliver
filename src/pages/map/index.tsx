@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllBuildings } from "@/api";
+import { getBuildingFloors } from "@/api";
 import HasFloors from "./has-map";
 import HasNotFloors from "./hasnot-map";
 
 export default function Map() {
   const navigate = useNavigate();
-  const [hasBuildings, setHasBuildings] = useState<boolean | null>(null); // null: 로딩중
+  const [hasFloors, setHasFloors] = useState<boolean | null>(null); // null: 로딩중
 
   useEffect(() => {
-    const fetchBuildings = async () => {
+    const checkFloors = async () => {
       try {
-        const response = await getAllBuildings();
-        setHasBuildings(response.data.length > 0);
+        // getBuildingFloors 내부에서 getAllBuildings를 호출하므로 파라미터 없이 호출
+        const floorsResponse = await getBuildingFloors();
+
+        // 층이 있는지 확인
+        setHasFloors(floorsResponse.data.length > 0);
       } catch (error) {
-        console.error("건물 데이터 가져오기 실패:", error);
-        setHasBuildings(true);
+        console.error("층 데이터 가져오기 실패:", error);
+        setHasFloors(false);
       }
     };
 
-    fetchBuildings();
+    checkFloors();
   }, []);
 
   const handleAddBuilding = () => {
@@ -27,13 +30,13 @@ export default function Map() {
   };
 
   // 로딩 중일 때는 아무것도 렌더링하지 않거나 로딩 표시
-  if (hasBuildings === null) {
+  if (hasFloors === null) {
     return null; // 또는 로딩 컴포넌트
   }
 
   return (
     <>
-      {hasBuildings ? (
+      {hasFloors ? (
         <HasFloors />
       ) : (
         <HasNotFloors onAddBuilding={handleAddBuilding} />

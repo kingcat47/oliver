@@ -97,4 +97,7 @@
 
 .divbox {
   width: 198px;
+  min-width: 198px;
+  flex-shrink: 0;
+  height: 1px;
 }

@@ -15,22 +15,22 @@ export default function AuthCallback() {
         // 에러가 있으면 로그인 페이지로 리다이렉트
         if (error) {
           console.error("구글 로그인 에러:", error);
-          // setStatus("로그인 실패. 로그인 페이지로 이동합니다...");
-          // setTimeout(() => {
-          //   navigate("/login");
-          // }, 2000);
+          setStatus("로그인 실패. 로그인 페이지로 이동합니다...");
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
           return;
         }
 
         // code가 없으면 로그인 페이지로 리다이렉트
         if (!code) {
           console.error("code 파라미터가 없습니다.");
-          // setStatus(
-          //   "로그인 코드를 받을 수 없습니다. 로그인 페이지로 이동합니다..."
-          // );
-          // setTimeout(() => {
-          //   navigate("/login");
-          // }, 2000);
+          setStatus(
+            "로그인 코드를 받을 수 없습니다. 로그인 페이지로 이동합니다..."
+          );
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
           return;
         }
 
@@ -67,20 +67,20 @@ export default function AuthCallback() {
         }
 
         console.log("구글 로그인 성공!");
-        // setStatus("로그인 성공! 메인 페이지로 이동합니다...");
+        setStatus("로그인 성공! 메인 페이지로 이동합니다...");
 
-        // // 메인 페이지로 리다이렉트
-        // setTimeout(() => {
-        //   navigate("/", { replace: true });
-        // }, 1000);
+        // 메인 페이지로 리다이렉트
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1000);
       } catch (error: any) {
         console.error("구글 로그인 콜백 에러:", error);
-        // setStatus(
-        //   `로그인 실패: ${error.message || "알 수 없는 오류가 발생했습니다."}`
-        // );
-        // setTimeout(() => {
-        //   navigate("/login");
-        // }, 3000);
+        setStatus(
+          `로그인 실패: ${error.message || "알 수 없는 오류가 발생했습니다."}`
+        );
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
       }
     };
 
@@ -105,7 +105,18 @@ export default function AuthCallback() {
         },
       });
 
-      console.log("사용자 정보:", meResponse);
+      console.log("사용자 정보 응답 상태:", meResponse.status, meResponse.ok);
+
+      if (!meResponse.ok) {
+        const errorData = await meResponse.json().catch(() => ({}));
+        console.error("사용자 정보 조회 실패:", errorData);
+        throw new Error(
+          errorData.message || `HTTP error! status: ${meResponse.status}`
+        );
+      }
+
+      const userData = await meResponse.json();
+      console.log("사용자 정보:", userData);
     };
 
     handleCallback();
