@@ -11,6 +11,7 @@ import FillterItem, {
 } from "@/components/page/map/map-sub-function/fillter/fillter-item";
 import MapArea from "@/components/page/map/maparea";
 import DeviceItem from "@/components/page/map/device";
+import MapSettings from "@/components/page/map/map-settings";
 import { getBuildingFloors, getAllBuildings } from "@/api/building/service";
 import { getBuildingFloorMap } from "@/api/map/service";
 import { getBuildingFloorRobots } from "@/api/bot/service";
@@ -64,6 +65,7 @@ export default function HasFloors({
   const [loading, setLoading] = useState(true);
   const [devices, setDevices] = useState<Device[]>([]);
   const [devicesLoading, setDevicesLoading] = useState(false);
+  const [isMapSettingsOpen, setIsMapSettingsOpen] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const mapAreaRef = useRef<HTMLDivElement | null>(null);
 
@@ -378,7 +380,7 @@ export default function HasFloors({
                 navigate("/map/register/section1");
               }}
               onManage={() => {
-                console.log("관리");
+                setIsMapSettingsOpen(true);
               }}
             />
           ) : (
@@ -466,6 +468,9 @@ export default function HasFloors({
           </button>
         </div>
       </div>
+      {isMapSettingsOpen && (
+        <MapSettings onClose={() => setIsMapSettingsOpen(false)} />
+      )}
     </MainLayout>
   );
 }
