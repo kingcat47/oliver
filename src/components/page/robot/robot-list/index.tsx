@@ -84,9 +84,13 @@ const mapDeviceToRobotItem = (device: DeviceDto) => {
 
 interface RobotListProps {
   onRobotClick?: (device: DeviceDto) => void;
+  refreshTrigger?: number;
 }
 
-export default function RobotList({ onRobotClick }: RobotListProps = {}) {
+export default function RobotList({
+  onRobotClick,
+  refreshTrigger,
+}: RobotListProps = {}) {
   const [selectedSegment, setSelectedSegment] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [devices, setDevices] = useState<DeviceDto[]>([]);
@@ -112,7 +116,7 @@ export default function RobotList({ onRobotClick }: RobotListProps = {}) {
     };
 
     fetchDevices();
-  }, []);
+  }, [refreshTrigger]);
 
   // 필터링된 디바이스
   const filteredDevices = devices.filter((device) => {

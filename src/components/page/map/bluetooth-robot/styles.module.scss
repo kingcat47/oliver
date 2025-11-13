@@ -59,14 +59,5 @@
     border-radius: var(--Radius-12, 12px);
     cursor: pointer;
     transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--Fill-Strong, #eff0f2);
-    }
-
-    &.selected {
-      background-color: var(--Fill-Strong, #eff0f2);
-      border: 1px solid var(--Primary-Base, #007bff);
-    }
   }
 }

@@ -15,15 +15,20 @@ import MapArea from "../../map/maparea";
 import DeviceLog from "../../emergency/device-log";
 import { X } from "lucide-react";
 import { getBuildingFloors } from "@/api/building/service";
-import { getDeviceById } from "@/api/bot/service";
+import { getDeviceById, updateDevice, deleteDevice } from "@/api/bot/service";
 import { DeviceType } from "@/api/bot/dto/device";
 
 interface RobotDetailProps {
   deviceId: string;
   onClose?: () => void;
+  onUpdate?: () => void;
 }
 
-export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
+export default function RobotDetail({
+  deviceId,
+  onClose,
+  onUpdate,
+}: RobotDetailProps) {
   const [zoomLevel, setZoomLevel] = useState(100);
   const [floors, setFloors] = useState<
     { id: string; name: string; level: number }[]
@@ -34,6 +39,13 @@ export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [device, setDevice] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [selectedCamera, setSelectedCamera] = useState<"thermal" | "normal">(
+    "thermal"
+  );
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // 디바이스 상세 정보 가져오기
   useEffect(() => {
@@ -42,6 +54,7 @@ export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
         setLoading(true);
         const deviceData = await getDeviceById(deviceId);
         setDevice(deviceData);
+        setEditedName(deviceData.name || "");
       } catch (error) {
         console.error("디바이스 상세 정보 가져오기 실패:", error);
       } finally {
@@ -180,13 +193,116 @@ export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
     setIsDropdownOpen(false);
   };
 
+  const handleEditNameClick = () => {
+    setIsEditingName(true);
+    setEditedName(device?.name || "");
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingName(false);
+    setEditedName(device?.name || "");
+  };
+
+  const handleSaveName = async () => {
+    if (!editedName.trim()) {
+      alert("이름을 입력해주세요.");
+      return;
+    }
+
+    if (!device?.deviceId) {
+      alert("디바이스 정보를 불러올 수 없습니다.");
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      await updateDevice(device.deviceId, { name: editedName.trim() });
+      setDevice((prev: any) => ({ ...prev, name: editedName.trim() }));
+      setIsEditingName(false);
+      onUpdate?.();
+    } catch (error) {
+      console.error("이름 변경 실패:", error);
+      alert("이름 변경에 실패했습니다.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteDevice = async () => {
+    if (!device?.deviceId) {
+      alert("디바이스 정보를 불러올 수 없습니다.");
+      return;
+    }
+
+    if (!confirm("정말로 이 디바이스를 삭제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      await deleteDevice(device.deviceId);
+      alert("디바이스가 삭제되었습니다.");
+      onUpdate?.();
+      onClose?.();
+    } catch (error) {
+      console.error("디바이스 삭제 실패:", error);
+      alert("디바이스 삭제에 실패했습니다.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className={s.container}>
       <div className={s.header}>
         <div className={s.header_content}>
           <div className={s.header_content_title_wrapper}>
-            <div className={s.header_content_title}>{name}</div>
-            <Pencil size={16} color="#8b8b8b" />
+            {isEditingName ? (
+              <>
+                <input
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => setEditedName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSaveName();
+                    } else if (e.key === "Escape") {
+                      handleCancelEdit();
+                    }
+                  }}
+                  className={s.name_input}
+                  autoFocus
+                  disabled={isSaving}
+                />
+                <div className={s.edit_buttons}>
+                  <button
+                    className={s.save_button}
+                    onClick={handleSaveName}
+                    disabled={isSaving}
+                  >
+                    저장
+                  </button>
+                  <button
+                    className={s.cancel_button}
+                    onClick={handleCancelEdit}
+                    disabled={isSaving}
+                  >
+                    취소
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={s.header_content_title}>{name}</div>
+                <button
+                  className={s.edit_button}
+                  onClick={handleEditNameClick}
+                  type="button"
+                >
+                  <Pencil size={16} color="#8b8b8b" />
+                </button>
+              </>
+            )}
           </div>
 
           <div className={s.header_content_subtitle}>{type}</div>
@@ -242,8 +358,10 @@ export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
                 { label: "열화상 카메라", value: "thermal" },
                 { label: "일반 카메라", value: "normal" },
               ]}
-              selected="thermal"
-              onChange={() => {}}
+              selected={selectedCamera}
+              onChange={(value) =>
+                setSelectedCamera(value as "thermal" | "normal")
+              }
               width={552}
               height={44}
             />
@@ -318,6 +436,8 @@ export default function RobotDetail({ deviceId, onClose }: RobotDetailProps) {
           text="로봇 삭제하기"
           variant="primary"
           style={{ backgroundColor: "#F03839", color: "#fff" }}
+          onClick={handleDeleteDevice}
+          disabled={isDeleting}
         />
       </div>
     </div>
