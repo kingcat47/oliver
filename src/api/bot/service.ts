@@ -146,8 +146,8 @@ export const updateDevice = async (
   deviceId: string,
   data: UpdateDeviceDto
 ): Promise<UpdateDeviceResponseDto> => {
-  const response = await apiClient.patch<UpdateDeviceResponseDto>(
-    `/devices/${deviceId}`,
+  const response = await apiClient.put<UpdateDeviceResponseDto>(
+    `/v1/device/${deviceId}`,
     data
   );
   return response.data;
@@ -160,7 +160,7 @@ export const deleteDevice = async (
   deviceId: string
 ): Promise<DeleteDeviceResponseDto> => {
   const response = await apiClient.delete<DeleteDeviceResponseDto>(
-    `/devices/${deviceId}`
+    `/v1/device/${deviceId}`
   );
   return response.data;
 };
@@ -326,20 +326,17 @@ export const registerRobotsSequentially = async (): Promise<DeviceDto[]> => {
         id: robot.id,
         buildingId: buildingId,
         floorId: "", // 공백 문자열
-        name: robot.name,
+        name: "Oliver",
       };
 
       const registeredRobot = await registerRobot(registerData);
       registeredRobots.push(registeredRobot);
-      console.log(`로봇 ${robot.name} (${robot.id}) 등록 완료`);
+      console.log(`로봇 Oliver (${robot.id}) 등록 완료`);
 
       // 등록된 ID를 Set에 추가하여 중복 체크
       existingDeviceIds.add(robot.id);
     } catch (error: any) {
-      console.error(
-        `로봇 ${robot.name} (${robot.id}) 등록 실패:`,
-        error.message
-      );
+      console.error(`로봇 Oliver (${robot.id}) 등록 실패:`, error.message);
       // 에러가 발생해도 다음 로봇 등록 시도
       continue;
     }
@@ -402,21 +399,18 @@ export const registerSensorsSequentially = async (): Promise<DeviceDto[]> => {
         id: device.id,
         buildingId: buildingId,
         floorId: "", // 공백 문자열
-        name: device.name,
+        name: "Sensor",
         tuyaDeviceRegisterKey: "tuya-key-12345", // 고정 키 값
       };
 
       const registeredSensor = await registerSensor(registerData);
       registeredSensors.push(registeredSensor);
-      console.log(`센서 ${device.name} (${device.id}) 등록 완료`);
+      console.log(`센서 Sensor (${device.id}) 등록 완료`);
 
       // 등록된 ID를 Set에 추가하여 중복 체크
       existingDeviceIds.add(device.id);
     } catch (error: any) {
-      console.error(
-        `센서 ${device.name} (${device.id}) 등록 실패:`,
-        error.message
-      );
+      console.error(`센서 Sensor (${device.id}) 등록 실패:`, error.message);
       // 에러가 발생해도 다음 센서 등록 시도
       continue;
     }

@@ -9,7 +9,6 @@ import {
   registerRobot,
   registerSensor,
   generateUUID,
-  mockDeviceNames,
 } from "@/api/bot/service";
 import { getAllBuildings } from "@/api/building/service";
 
@@ -64,10 +63,8 @@ const RegisterRobot = ({
 
         const buildingId = buildingsResponse.data[0].id;
         const deviceId = generateUUID();
-        // 목데이터 이름 중 랜덤 선택
-        const randomIndex = Math.floor(Math.random() * mockDeviceNames.length);
-        const deviceName =
-          mockDeviceNames[randomIndex] || `Device-${deviceId.substring(0, 8)}`;
+        // 디바이스 타입에 따라 이름 설정
+        const deviceName = deviceType === "robot" ? "Oliver" : "Sensor";
 
         if (deviceType === "robot") {
           // 로봇 등록

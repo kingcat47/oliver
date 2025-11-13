@@ -4,13 +4,14 @@ import s from "./styles.module.scss";
 import RobotList from "@/components/page/robot/robot-list";
 import RobotDetail from "@/components/page/robot/robot-detail";
 import Button from "@/shared/components/butoon";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { DeviceDto } from "@/api/bot/dto/device";
 
 export default function HasRobot() {
   const navigate = useNavigate();
   const [selectedRobot, setSelectedRobot] = useState<DeviceDto | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleAddRobot = () => {
     navigate("/robot/register/section1");
@@ -22,6 +23,10 @@ export default function HasRobot() {
 
   const handleCloseDetail = () => {
     setSelectedRobot(null);
+  };
+
+  const handleRobotUpdate = () => {
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
@@ -41,7 +46,10 @@ export default function HasRobot() {
           />
         </div>
 
-        <RobotList onRobotClick={handleRobotClick} />
+        <RobotList
+          onRobotClick={handleRobotClick}
+          refreshTrigger={refreshTrigger}
+        />
 
         {selectedRobot && (
           <div className={s.detailOverlay} onClick={handleCloseDetail}>
@@ -49,6 +57,7 @@ export default function HasRobot() {
               <RobotDetail
                 deviceId={selectedRobot.deviceId}
                 onClose={handleCloseDetail}
+                onUpdate={handleRobotUpdate}
               />
             </div>
           </div>
