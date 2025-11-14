@@ -24,11 +24,13 @@
 }
 
 .video,
-.image {
+.image,
+.iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: var(--radius-16, 16px);
+  border: none;
 }
 
 .robotInfo {

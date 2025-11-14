@@ -28,19 +28,34 @@ export default function VideoSection() {
   return (
     <>
       <section className={s.videoSection}>
-        <div onClick={() => handleVideoClick(0)} style={{ cursor: "pointer" }}>
+        <div 
+          onClick={() => handleVideoClick(0)} 
+          style={{ cursor: "pointer", position: "relative" }}
+        >
           <RealtimeVideo />
         </div>
-        <div onClick={() => handleVideoClick(1)} style={{ cursor: "pointer" }}>
+        <div 
+          onClick={() => handleVideoClick(1)} 
+          style={{ cursor: "pointer", position: "relative" }}
+        >
           <RealtimeVideo />
         </div>
-        <div onClick={() => handleVideoClick(2)} style={{ cursor: "pointer" }}>
+        <div 
+          onClick={() => handleVideoClick(2)} 
+          style={{ cursor: "pointer", position: "relative" }}
+        >
           <RealtimeVideo />
         </div>
-        <div onClick={() => handleVideoClick(3)} style={{ cursor: "pointer" }}>
+        <div 
+          onClick={() => handleVideoClick(3)} 
+          style={{ cursor: "pointer", position: "relative" }}
+        >
           <RealtimeVideo />
         </div>
-        <div onClick={() => handleVideoClick(4)} style={{ cursor: "pointer" }}>
+        <div 
+          onClick={() => handleVideoClick(4)} 
+          style={{ cursor: "pointer", position: "relative" }}
+        >
           <RealtimeVideo />
         </div>
       </section>
