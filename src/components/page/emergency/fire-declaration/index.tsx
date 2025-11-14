@@ -1,8 +1,30 @@
+import { useState, useEffect } from "react";
 import { Bot } from "lucide-react";
 import s from "./styles.module.scss";
 
 export default function FireDeclaration() {
-  const time = "22";
+  const [status, setStatus] = useState<"신고중" | "신고됨">("신고중");
+
+  useEffect(() => {
+    // 10초 후에 "신고중"에서 "신고됨"으로 변경
+    const timer = setTimeout(() => {
+      setStatus("신고됨");
+    }, 10000); // 10초 = 10000ms
+
+    // 컴포넌트 언마운트 시 타이머 정리
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const title =
+    status === "신고중"
+      ? "관할 소방서로 자동 신고중"
+      : "관할 소방서로 자동 신고됨";
+  const description =
+    status === "신고중"
+      ? "실시간 로봇 영상 정보가 소방서로 전송 중입니다."
+      : "실시간 로봇 영상 정보가 소방서로 전송됩니다.";
 
   return (
     <div className={s.container}>
@@ -16,21 +38,12 @@ export default function FireDeclaration() {
       </div>
 
       <div className={s.content}>
-        <p className={s.title}>관할 소방서로 자동 신고됨</p>
-        <p className={s.description}>
-          실시간 로봇 영상 정보가 소방서로 전송됩니다.
+        <p className={`${s.title} ${s.fadeIn}`} key={status}>
+          {title}
         </p>
-      </div>
-
-      <div className={s.footer}>
-        <div className={s.time_header}>
-          <p className={s.time_title}>통화 기록</p>
-          <p className={s.time_value}>{time}초</p>
-        </div>
-        <audio className={s.audio} controls>
-          <source src="" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
+        <p className={`${s.description} ${s.fadeIn}`} key={`${status}-desc`}>
+          {description}
+        </p>
       </div>
     </div>
   );
