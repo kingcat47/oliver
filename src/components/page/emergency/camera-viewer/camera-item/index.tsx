@@ -13,9 +13,9 @@ export default function CameraItem({
   imageUrl,
   onClick,
 }: CameraItemProps) {
-  // Cloudflare Stream iframe URL
+  // Cloudflare Stream iframe URL with autoplay
   const cloudflareStreamUrl =
-    "https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe";
+    "https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe?autoplay=true&muted=true";
 
   return (
     <div className={s.container} onClick={onClick}>
