@@ -301,7 +301,7 @@ export default function RobotDetail({
             <div className={s.content_camera_content}>
               <iframe
                 className={s.camera_iframe}
-                src="https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe"
+                src="https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe?autoplay=true&muted=true"
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                 allowFullScreen
                 title={`${name} 카메라`}

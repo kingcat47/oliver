@@ -29,7 +29,7 @@ export default function VideoDetail({ isOpen, onClose, videoInfo }: Props) {
         <div className={s.videoContainer}>
           <iframe
             className={s.video}
-            src="https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe"
+            src="https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe?autoplay=true&muted=true"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowFullScreen
             title={`${robotName} 카메라`}
