@@ -13,28 +13,22 @@ export default function CameraItem({
   imageUrl,
   onClick,
 }: CameraItemProps) {
+  // Cloudflare Stream iframe URL
+  const cloudflareStreamUrl =
+    "https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe";
+
   return (
     <div className={s.container} onClick={onClick}>
       <div className={s.videoContainer}>
-        {videoUrl ? (
-          <video
-            className={s.video}
-            src={videoUrl}
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
-        ) : imageUrl ? (
+        {imageUrl ? (
           <img className={s.image} src={imageUrl} alt={robotName} />
         ) : (
-          <video
-            className={s.video}
-            src="/sample/neo.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
+          <iframe
+            className={s.iframe}
+            src={cloudflareStreamUrl}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowFullScreen
+            title={`${robotName} 카메라`}
           />
         )}
       </div>

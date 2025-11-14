@@ -27,9 +27,13 @@ export default function VideoDetail({ isOpen, onClose, videoInfo }: Props) {
     <div className={s.overlay} onClick={onClose}>
       <div className={s.modal} onClick={(e) => e.stopPropagation()}>
         <div className={s.videoContainer}>
-          <video className={s.video} autoPlay muted loop>
-            <source src="/sample/neo.mp4" type="video/mp4" />
-          </video>
+          <iframe
+            className={s.video}
+            src="https://customer-ofozypfag8cjmsfq.cloudflarestream.com/55b680c5ee5400f60ea642eddbea475f/iframe"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowFullScreen
+            title={`${robotName} 카메라`}
+          />
         </div>
 
         <div className={s.bottomBar}>

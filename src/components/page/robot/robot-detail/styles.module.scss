@@ -237,6 +237,14 @@
     gap: var(--Spacing-12, 12px);
     align-self: stretch;
   }
+
+  .camera_iframe {
+    width: 100%;
+    height: 280px;
+    border: none;
+    border-radius: var(--Radius-12, 12px);
+    background: var(--Fill-Strong, #eff0f2);
+  }
 }
 
 .content_camera_empty {
@@ -291,13 +299,20 @@
   }
 }
 
-.content_map_content {
-  position: relative;
-  height: 250px;
+.content_map_info {
+  display: flex;
+  align-items: center;
   align-self: stretch;
-  border-radius: var(--Radius-12, 12px);
-  background: var(--Fill-Strong, #eff0f2);
-  overflow: hidden;
+}
+
+.floor_text {
+  color: var(--Content, #0e0e0e);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
 }
 
 .zoomControls {
